@@ -87,8 +87,6 @@ export const RegisterPage = () => {
               error={!formClear && !!emailError}
               helperText={!formClear && emailError}
             />
-            <p>Form Submited: {!formClear + ' '}</p>
-            <p>emailError: {emailError + ' '}</p>
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
