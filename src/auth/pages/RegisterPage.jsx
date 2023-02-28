@@ -15,7 +15,7 @@ import { startCreatingUserWithEmailPassword } from '../../store/auth';
 
 const initialFormState = {
   displayName: 'TEST',
-  email: 'test2@test.com',
+  email: 'test@2test.com',
   password: '123456',
 };
 
@@ -29,7 +29,6 @@ const formValidations = {
 };
 
 export const RegisterPage = () => {
-  const [formSubmitted, setFormSubmitted] = useState(false);
   const {
     formState,
     displayName,
@@ -40,7 +39,10 @@ export const RegisterPage = () => {
     passwordError,
     isFormValid,
     onInputChange,
+    isClear,
   } = useForm(initialFormState, formValidations);
+
+  const formClear = useMemo(() => isClear, [isClear]);
 
   const dispatch = useDispatch();
   const { status, errorMessage } = useSelector((store) => store.auth);
@@ -52,14 +54,12 @@ export const RegisterPage = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    setFormSubmitted(true);
     if (!isFormValid) return;
     dispatch(startCreatingUserWithEmailPassword(formState));
   };
 
   return (
     <AuthLayout title='Register'>
-      <h1>Is Valid: {isFormValid ? 'TRUE' : 'FALSE'}</h1>
       <form onSubmit={onSubmit}>
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
@@ -71,8 +71,8 @@ export const RegisterPage = () => {
               name='displayName'
               value={displayName}
               onChange={onInputChange}
-              error={formSubmitted && !!displayNameError}
-              helperText={displayNameError}
+              error={!formClear && !!displayNameError}
+              helperText={!formClear && displayNameError}
             />
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
@@ -84,9 +84,11 @@ export const RegisterPage = () => {
               name='email'
               value={email}
               onChange={onInputChange}
-              error={formSubmitted && !!emailError}
-              helperText={emailError}
+              error={!formClear && !!emailError}
+              helperText={!formClear && emailError}
             />
+            <p>Form Submited: {!formClear + ' '}</p>
+            <p>emailError: {emailError + ' '}</p>
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
@@ -97,8 +99,8 @@ export const RegisterPage = () => {
               name='password'
               value={password}
               onChange={onInputChange}
-              error={formSubmitted && !!passwordError}
-              helperText={passwordError}
+              error={!formClear && !!passwordError}
+              helperText={!formClear && passwordError}
             />
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 2 }}>
