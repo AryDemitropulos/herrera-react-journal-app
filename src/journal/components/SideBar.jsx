@@ -11,9 +11,11 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import { useSelector } from 'react-redux';
 
 export const SideBar = ({ drawerWith = 240 }) => {
+  const { displayName } = useSelector((store) => store.auth);
+
   return (
     <Box
       component='nav'
@@ -32,7 +34,7 @@ export const SideBar = ({ drawerWith = 240 }) => {
       >
         <Toolbar>
           <Typography variant='h6' noWrap component='div'>
-            Ary Demitropulos
+           {displayName}
           </Typography>
         </Toolbar>
         <Divider />
@@ -46,9 +48,7 @@ export const SideBar = ({ drawerWith = 240 }) => {
                 <Grid container>
                   <ListItemText primary={month} />
                   <ListItemText
-                    secondary={
-                      'Blanditiis, dignissimos, facilis '
-                    }
+                    secondary={'Blanditiis, dignissimos, facilis '}
                   />
                 </Grid>
               </ListItemButton>

@@ -11,6 +11,7 @@ export const NoteView = () => {
       justifyContent='space-between'
       sx={{ mb: 1 }}
       alignItems='center'
+      className='animate__animated animate__fadeIn animate__faster'
     >
       <Grid item>
         <Typography fontSize={39} fontWeight='light'>
@@ -45,7 +46,6 @@ export const NoteView = () => {
         />
       </Grid>
       <ImageGallery />
-      
     </Grid>
   );
 };
