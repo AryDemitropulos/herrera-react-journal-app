@@ -1,9 +1,21 @@
 import { SaveOutlined } from '@mui/icons-material';
 import { Button, Grid, TextField, Typography } from '@mui/material';
-import React from 'react';
+import { useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from '../../hooks';
 import { ImageGallery } from '../components';
 
-export const NoteView = () => {
+export const NoteView = ({ note }) => {
+  const dispatch = useDispatch();
+  const { body, title, date, onInputChange, formState } = useForm(note);
+  const dateString = useMemo(() => {
+    const newDate = new Date(date);
+    return newDate.toUTCString();
+  });
+
+  const onClickSave = () => {
+    dispatch();
+  };
   return (
     <Grid
       container
@@ -15,34 +27,40 @@ export const NoteView = () => {
     >
       <Grid item>
         <Typography fontSize={39} fontWeight='light'>
-          30 de Enero de 2023
+          {dateString}
         </Typography>
       </Grid>
       <Grid item>
-        <Button color='primary' sx={{ p: 2 }}>
+        <Button onClick={onClickSave} color='primary' sx={{ p: 2 }}>
           <SaveOutlined sx={{ fontSize: 30, mr: 1 }} />
           Guardar
         </Button>
       </Grid>
       <Grid container>
         <TextField
+          label='Titulo'
+          placeholder='Ingrese un título'
+          name='title'
+          value={title}
+          onChange={onInputChange}
+          fullWidth
+          sx={{ border: 'none', mb: 1 }}
           type='text'
           variant='filled'
-          fullWidth
-          placeholder='Ingrese un título'
-          label='Título'
-          sx={{ border: 'none', mb: 1 }}
         />
 
         <TextField
+          label='Descripción'
+          placeholder='Qué sucedio hoy?'
+          name='body'
+          value={body}
+          onChange={onInputChange}
+          fullWidth
+          minRows={5}
+          multiline
+          sx={{ border: 'none', mb: 1 }}
           type='text'
           variant='filled'
-          fullWidth
-          multiline
-          placeholder='Qué sucedio hoy?'
-          label='Descripción'
-          minRows={5}
-          sx={{ border: 'none', mb: 1 }}
         />
       </Grid>
       <ImageGallery />

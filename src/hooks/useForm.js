@@ -2,12 +2,17 @@ import { useEffect, useMemo, useState } from 'react';
 
 export const useForm = (initialForm = {}, formValidations = {}) => {
   const [formState, setFormState] = useState(initialForm);
+
   const [formStateErrors, setformStateErrors] = useState({});
   const [isClear, setIsClear] = useState(true);
 
   useEffect(() => {
     runValidators();
   }, [formState]);
+
+  useEffect(() => {
+    setFormState(initialForm);
+  }, [initialForm]);
 
   const onInputChange = ({ target }) => {
     !isClear || setIsClear(false);
@@ -46,6 +51,6 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
     isFormValid,
     ...formStateErrors,
     formStateErrors,
-    isClear
+    isClear,
   };
 };
