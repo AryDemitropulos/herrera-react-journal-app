@@ -4,6 +4,7 @@ import {
   signInWithGoogle,
   startLoginWithEmailPassword,
 } from '../../firebase/providers';
+import { resetJournalStore } from '../journal/journalSlice';
 import { checkingCredentials, login, logout } from './authSlice';
 
 export const checkingAuthentication = (email, password) => {
@@ -62,6 +63,7 @@ export const loginWithEmailPassword = (email, password) => {
 export const startLogout = () => {
   return async (dispatch) => {
     await logoutFirebase();
+    dispatch(resetJournalStore());
     dispatch(logout());
   };
 };
